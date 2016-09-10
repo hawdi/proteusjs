@@ -11,7 +11,11 @@
     "node": ">=4.0.0"
   },
   "dependencies": {
-
+    "bluebird": "^3.4.6",
+    "hoek": "^4.0.2",
+    "joi": "^9.0.4",
+    "moment": "^2.14.1",
+    "oppsy": "^1.0.2"
   },
   "peerDependencies": {
     "hapi": ">=10.x.x"
