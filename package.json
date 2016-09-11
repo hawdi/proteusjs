@@ -25,6 +25,10 @@
     "hapi": "15.x.x",
     "lab": "11.x.x"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hawdi/proteusjs.git"
+  },
   "bugs": {
     "url": "https://github.com/hawdi/proteusjs/issues"
   },
