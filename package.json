@@ -1,5 +1,5 @@
 {
-  "name": "elog",
+  "name": "proteusjs",
   "description": "Hapi Server Plugin",
   "version": "0.0.4",
   "main": "lib/index.js",
@@ -28,12 +28,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hawdi/elog.git"
+    "url": "git+https://github.com/hawdi/proteusjs.git"
   },
   "bugs": {
-    "url": "https://github.com/hawdi/elog/issues"
+    "url": "https://github.com/hawdi/proteusjs/issues"
   },
-  "homepage": "https://github.com/hawdi/elog#readme",
+  "homepage": "https://github.com/hawdi/proteusjs#readme",
   "scripts": {},
   "license": "geekjai"
 }
