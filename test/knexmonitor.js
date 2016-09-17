@@ -38,7 +38,7 @@ const plugin = {
 const knexQuery = require('./fixtures/knexquery');
 const knexQueryErr = require('./fixtures/knexqueryerror');
 
-describe('Monitor :: Knex ', () => {
+describe('Monitor :: Knex', () => {
 
   before((done) => {
 

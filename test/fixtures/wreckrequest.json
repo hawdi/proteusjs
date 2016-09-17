@@ -1,0 +1,32 @@
+{
+  "protocol": "http:",
+  "slashes": true,
+  "auth": null,
+  "host": "developer.proteusjs.com",
+  "port": null,
+  "hostname": "developer.proteusjs.com",
+  "hash": null,
+  "search": "?app_id=123&app_key=123&format=json",
+  "query": "app_id=123&app_key=123&format=json",
+  "pathname": "/api/search/",
+  "path": "/api/search/?app_id=123&app_key=123&format=json",
+  "href": "http://developer.proteusjs.com/api/search/?app_id=123&app_key=123&format=json",
+  "method": "GET",
+  "headers": {},
+  "agent": {
+    "domain": null,
+    "_events": { "free": [] },
+    "_eventsCount": 1,
+    "_maxListeners": null,
+    "defaultPort": 80,
+    "protocol": "http:",
+    "options": { "maxSockets": "Infinity", "path": null },
+    "requests": {},
+    "sockets": {},
+    "freeSockets": {},
+    "keepAliveMsecs": 1000,
+    "keepAlive": false,
+    "maxSockets": "Infinity",
+    "maxFreeSockets": 256
+  }
+}
