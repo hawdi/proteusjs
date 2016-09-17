@@ -36,6 +36,7 @@ const plugin = {
 };
 
 const knexQuery = require('./fixtures/knexquery');
+const knexQueryErr = require('./fixtures/knexqueryerror');
 
 describe('Monitor :: Knex ', () => {
 
@@ -43,12 +44,14 @@ describe('Monitor :: Knex ', () => {
 
     new Monitor(knex, plugin.options);
     knex.client.emit('start', builder);
+
+    plugin.options.reporter.consoleReporter = new EventEmitter;
+
     done();
   });
 
   it('start knex monitor for query event', (done) => {
 
-    plugin.options.reporter.consoleReporter = new EventEmitter;
     plugin.options.reporter.consoleReporter.once('consolelog', function(result){
 
       expect(result.object).equal('knex');
@@ -60,9 +63,57 @@ describe('Monitor :: Knex ', () => {
     builder.emit('query', knexQuery);
   });
 
-  /*it('knex client as null', (done) => {
+  it('start knex monitor for query error event', (done) => {
+
+    plugin.options.reporter.consoleReporter.once('consolelog', function(result){
+
+      expect(result.object).equal('knex');
+      expect(result.event).equal('queryerror');
+      expect(result.message).equal(knexQueryErr.message);
+      done();
+    });
+
+    builder.emit('query-error', knexQueryErr);
+  });
+
+  it('start knex monitor for error event', (done) => {
+
+    plugin.options.reporter.consoleReporter.once('consolelog', function(result){
+
+      expect(result.object).equal('knex');
+      expect(result.event).equal('error');
+      expect(result.message).equal(knexQueryErr.message);
+      done();
+    });
+
+    builder.emit('error', knexQueryErr);
+  });
+
+  it('start knex monitor for successful query execution', (done) => {
+
+    plugin.options.reporter.consoleReporter.once('consolelog', function(result){
+
+      expect(result.object).equal('knex');
+      expect(result.event).equal('end');
+      done();
+    });
+
+    builder.emit('end');
+  });
+
+  it('knex console reporter is null', (done) => {
+
+    plugin.options.reporter.console.knex = null;
+    builder.emit('end');
+    expect('').equal('');
+    done();
+  });
+
+  it('knex client as null', (done) => {
 
     new Monitor({}, plugin);
+    expect('').equal('');
     done();
-  });*/
+  });
+
 });

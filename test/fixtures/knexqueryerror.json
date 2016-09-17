@@ -1,0 +1,7 @@
+{
+  "message": "select * from `logg` - ER_NO_SUCH_TABLE: Table 'sample.logg' doesn't exist",
+  "code": "ER_NO_SUCH_TABLE",
+  "errno": 1146,
+  "sqlState": "42S02",
+  "index": 0
+}
