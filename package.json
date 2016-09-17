@@ -33,6 +33,9 @@
     "url": "https://github.com/hawdi/proteusjs/issues"
   },
   "homepage": "https://github.com/hawdi/proteusjs#readme",
-  "scripts": {},
+  "scripts": {
+    "test": "lab -m 5000 -t 50 -v -a code",
+    "test-cov-html": "lab -m 5000 -r html -o coverage.html -a code"
+  },
   "license": "geekjai"
 }

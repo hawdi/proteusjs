@@ -1,0 +1,10 @@
+{
+  "__knexUid": "__knexUid1",
+  "method": "select",
+  "options": {},
+  "timeout": false,
+  "cancelOnTimeout": false,
+  "bindings": [],
+  "__knexQueryUid": "1574fd44-252e-4973-865b-e1fc8c132332",
+  "sql": "select * from `log`"
+}
