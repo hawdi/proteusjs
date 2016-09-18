@@ -11,8 +11,12 @@ const lab = exports.lab = Lab.script();
 const expect = Code.expect;
 const describe = lab.describe;
 const it = lab.it;
+const before = lab.before;
 
 const Proteusjs = require('../lib');
+
+//creating knex EventEmitter
+const EventEmitter = require('events').EventEmitter;
 
 const plugin = {
   register: Proteusjs.register,
@@ -47,7 +51,13 @@ const plugin = {
 
 describe('Proteusjs :: Main', () => {
 
-  it('start without error', (done) => {
+  before((done) => {
+
+    plugin.options.reporter.console.custom = new EventEmitter;
+    done();
+  });
+
+  it('server starts without error', (done) => {
 
     const server = new Hapi.Server();
 
@@ -61,7 +71,7 @@ describe('Proteusjs :: Main', () => {
     });
   });
 
-  it('stop without error', (done) => {
+  it('server stops without error', (done) => {
 
     const server = new Hapi.Server();
 
@@ -74,6 +84,41 @@ describe('Proteusjs :: Main', () => {
         done();
       });
     });
+  });
+
+  it('perform server log', (done) => {
+
+    plugin.options.reporter.console.custom.once('consolelog', function(result){
+
+      expect(result.object).equal('server');
+      expect(result.event).equal('log');
+      expect(result.tags[0]).equal('proteusjs');
+      expect(result.data).equal('test');
+      done();
+    });
+
+    const server = new Hapi.Server();
+
+    server.register(plugin, (err) => {
+
+      expect(err).to.not.exist();
+      server.connection();
+
+      server.route({
+        method : 'GET',
+        path : '/',
+        handler : function (request, reply) {
+          server.log(['proteusjs'], 'test');
+          reply('echo');
+        }
+      });
+
+      server.start(() => {
+        server.inject('/', (res) => { });
+      });
+
+    });
+
   });
 
 });
