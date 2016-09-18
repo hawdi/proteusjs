@@ -22,14 +22,14 @@ const Monitor = require('../lib/knexlog/knexmonitor');
 
 const plugin = {
   options: {
-    reporters: {
-      console: {
-        knex : {
-          query : true,
-          error : true,
-          end : true,
-          queryerror : true,
-        }
+    reporters: { },
+    knex: {
+      enable: true,
+      log: {
+        query: true,
+        error: true,
+        end: true,
+        queryerror: true
       }
     }
   }
@@ -45,14 +45,14 @@ describe('Monitor :: Knex', () => {
     new Monitor(knex, plugin.options);
     knex.client.emit('start', builder);
 
-    plugin.options.reporters.consoleReporter = new EventEmitter;
+    plugin.options.reporters.logit = new EventEmitter;
 
     done();
   });
 
   it('start knex monitor for query event', (done) => {
 
-    plugin.options.reporters.consoleReporter.once('consolelog', function(result){
+    plugin.options.reporters.logit.once('logit', function(result){
 
       expect(result.object).equal('knex');
       expect(result.event).equal('query');
@@ -65,7 +65,7 @@ describe('Monitor :: Knex', () => {
 
   it('start knex monitor for query error event', (done) => {
 
-    plugin.options.reporters.consoleReporter.once('consolelog', function(result){
+    plugin.options.reporters.logit.once('logit', function(result){
 
       expect(result.object).equal('knex');
       expect(result.event).equal('queryerror');
@@ -78,7 +78,7 @@ describe('Monitor :: Knex', () => {
 
   it('start knex monitor for error event', (done) => {
 
-    plugin.options.reporters.consoleReporter.once('consolelog', function(result){
+    plugin.options.reporters.logit.once('logit', function(result){
 
       expect(result.object).equal('knex');
       expect(result.event).equal('error');
@@ -91,7 +91,7 @@ describe('Monitor :: Knex', () => {
 
   it('start knex monitor for successful query execution', (done) => {
 
-    plugin.options.reporters.consoleReporter.once('consolelog', function(result){
+    plugin.options.reporters.logit.once('logit', function(result){
 
       expect(result.object).equal('knex');
       expect(result.event).equal('end');
@@ -101,10 +101,16 @@ describe('Monitor :: Knex', () => {
     builder.emit('end');
   });
 
-  it('knex console reporters is null', (done) => {
+  it('knex disable all events', (done) => {
 
-    plugin.options.reporters.console.knex = null;
-    builder.emit('end');
+    plugin.options.knex.log.query = false;
+    plugin.options.knex.log.error = false;
+    plugin.options.knex.log.end = false;
+    plugin.options.knex.log.queryerror = false;
+
+    new Monitor(knex, plugin.options);
+    knex.client.emit('start', builder);
+
     expect('').equal('');
     done();
   });

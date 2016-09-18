@@ -33,16 +33,6 @@ const plugin = {
           log : true,
           request : true,
           response : true
-        },
-        wreck : {
-          request: true,
-          response : true
-        },
-        knex : {
-          query : true,
-          error : true,
-          end : true,
-          queryerror : false,
         }
       }
     },
