@@ -27,7 +27,7 @@ const plugin = {
       request: [],
       response: []
     },
-    reporter: {
+    reporters: {
       console: {
         server: {
           log : true,
@@ -83,7 +83,7 @@ describe('Proteusjs :: Main', () => {
 
   before((done) => {
 
-    plugin.options.reporter.console.custom = new EventEmitter;
+    plugin.options.reporters.console.custom = new EventEmitter;
     done();
   });
 
@@ -118,7 +118,7 @@ describe('Proteusjs :: Main', () => {
 
   it('perform server log', (done) => {
 
-    plugin.options.reporter.console.custom.once('consolelog', function(result){
+    plugin.options.reporters.console.custom.once('consolelog', function(result){
 
       expect(result.object).equal('server');
       expect(result.event).equal('log');
@@ -152,8 +152,8 @@ describe('Proteusjs :: Main', () => {
   });
 
   it('server "request" monitor', (done) => {
-    plugin.options.reporter.consoleReporter = new EventEmitter;
-    plugin.options.reporter.consoleReporter.once('consolelog', (result) => {
+    plugin.options.reporters.consoleReporter = new EventEmitter;
+    plugin.options.reporters.consoleReporter.once('consolelog', (result) => {
 
       expect(result.object).to.equal('server');
       expect(result.event).to.equal('request');

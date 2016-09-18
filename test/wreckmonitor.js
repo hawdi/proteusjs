@@ -21,7 +21,7 @@ const Monitor = require('../lib/wrecklog/wreckmonitor');
 
 const plugin = {
   options: {
-    reporter: {
+    reporters: {
       console: {
         wreck : {
           request : true,
@@ -40,12 +40,12 @@ describe('Monitor :: Wreck', () => {
   before((done) => {
 
     new Monitor(wreck, plugin.options);
-    plugin.options.reporter.consoleReporter = new EventEmitter;
+    plugin.options.reporters.consoleReporter = new EventEmitter;
     done();
   });
 
   it('wreck request handling', (done) => {
-    plugin.options.reporter.consoleReporter.once('consolelog', function(result){
+    plugin.options.reporters.consoleReporter.once('consolelog', function(result){
 
       expect(result.object).equal('wreck');
       expect(result.event).equal('request');
@@ -58,7 +58,7 @@ describe('Monitor :: Wreck', () => {
   });
 
   it('wreck response handling', (done) => {
-    plugin.options.reporter.consoleReporter.once('consolelog', function(result){
+    plugin.options.reporters.consoleReporter.once('consolelog', function(result){
 
       expect(result.object).equal('wreck');
       expect(result.event).equal('response');
@@ -70,9 +70,9 @@ describe('Monitor :: Wreck', () => {
     wreck.emit('response', null, null, wreckRes, null, null);
   });
 
-  it('wreck console reporter is null', (done) => {
+  it('wreck console reporters is null', (done) => {
 
-    plugin.options.reporter.console.wreck = null;
+    plugin.options.reporters.console.wreck = null;
     wreck.emit('request', wreckReq);
     expect('').equal('');
     done();
