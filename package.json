@@ -18,7 +18,8 @@
     "oppsy": "^1.0.2"
   },
   "peerDependencies": {
-    "hapi": ">=10.x.x"
+    "hapi": ">=10.x.x",
+    "wreck": "^10.0.0"
   },
   "devDependencies": {
     "code": "3.x.x",
