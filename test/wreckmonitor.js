@@ -28,6 +28,13 @@ const plugin = {
           response : true
         }
       }
+    },
+    wreck: {
+      enable : true,
+      log : {
+        request : true,
+        response : true
+      }
     }
   }
 };
