@@ -23,24 +23,17 @@ const EventEmitter = require('events').EventEmitter;
 const plugin = {
   register: Proteusjs.register,
   options: {
-    includes: {
-      request: [],
-      response: []
-    },
-    reporters: {
-      console: {
-        server: {
-          log : true,
-          request : true,
-          response : true
-        }
-      }
-    },
-    ops: {
-      config: {},
-      interval: 60000
-    },
-    responseEvent: 'tail'
+    reporters: { },
+
+    //hapi config
+    hapi: {
+      includes: {
+        request: [],
+        response: []
+      },
+      responseEvent: 'tail'
+    }
+
   }
 };
 
@@ -73,7 +66,7 @@ describe('Proteusjs :: Main', () => {
 
   before((done) => {
 
-    plugin.options.reporters.console.custom = new EventEmitter;
+    plugin.options.reporters.logit = new EventEmitter;
     done();
   });
 
@@ -108,7 +101,7 @@ describe('Proteusjs :: Main', () => {
 
   it('perform server log', (done) => {
 
-    plugin.options.reporters.console.custom.once('consolelog', function(result){
+    plugin.options.reporters.logit.once('logit', function(result){
 
       expect(result.object).equal('server');
       expect(result.event).equal('log');
@@ -142,8 +135,8 @@ describe('Proteusjs :: Main', () => {
   });
 
   it('server "request" monitor', (done) => {
-    plugin.options.reporters.consoleReporter = new EventEmitter;
-    plugin.options.reporters.consoleReporter.once('consolelog', (result) => {
+    plugin.options.reporters.logit = new EventEmitter;
+    plugin.options.reporters.logit.once('logit', (result) => {
 
       expect(result.object).to.equal('server');
       expect(result.event).to.equal('request');
