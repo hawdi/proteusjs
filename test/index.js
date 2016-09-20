@@ -183,4 +183,25 @@ describe('Proteusjs :: Main', () => {
 
   });
 
+  //start server after setting all log property to false
+
+  it('start server with hapi log to false', (done) => {
+    plugin.options.hapi.log = {
+      log: false,
+      request: false,
+      response: false
+    };
+
+    const server = new Hapi.Server();
+
+    server.register(plugin, (err) => {
+
+      //No err.
+      expect(err).to.not.exist();
+
+      server.connection();
+      server.start(done);
+    });
+
+  });
 });
