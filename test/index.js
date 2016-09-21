@@ -34,7 +34,8 @@ const plugin = {
       log: {
         log: true,
         request: true,
-        response: true
+        response: true,
+        ops: true
       },
       responseEvent: 'tail'
     }
