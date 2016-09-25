@@ -1,0 +1,36 @@
+{
+  "protocol": "http:",
+  "slashes": true,
+  "auth": null,
+  "host": "example.org",
+  "port": null,
+  "hostname": "example.org",
+  "hash": null,
+  "search": null,
+  "query": null,
+  "pathname": "/example.html",
+  "path": "/example.html",
+  "href": "http://example.org/example.html",
+  "method": "GET",
+  "headers": {},
+  "agent": {
+    "domain": null,
+    "_events": {
+      "free": []
+    },
+    "_eventsCount": 1,
+    "_maxListeners": "undefined",
+    "defaultPort": 80,
+    "protocol": "http:",
+    "options": { "maxSockets": "Infinity", "path": null },
+    "requests": {},
+    "sockets": {
+      "json.org:80:": []
+    },
+    "freeSockets": {},
+    "keepAliveMsecs": 1000,
+    "keepAlive": false,
+    "maxSockets": "Infinity",
+    "maxFreeSockets": 256
+  } 
+}
