@@ -31,7 +31,7 @@ module.exports = {
       }
     },
     //knex config
-    'knex': {
+    knex: {
       lib: Database,
       enable: true,
       log: {
@@ -42,7 +42,7 @@ module.exports = {
       }
     },
     //wreck config
-    'wreck': {
+    wreck: {
       lib: Wreck,
       enable: true,
       log: {
@@ -79,6 +79,29 @@ server.register(
     });
   }
 );
+```
+> **database.js (to initialize knex client, need to require inside proteusjs config file)**
+
+```javascript
+'use strict';
+
+const knex = require('knex')({
+  client: config('mysql'),
+  connection: {
+    host     : config('localhost'),
+    user     : config('root'),
+    password : config(''),
+    database : config('example')
+  },
+  pool: {
+    min: 0,
+    max: 7
+  },
+  debug: false
+});
+
+module.exports = knex;
+
 ```
 
 ##Existing streams
