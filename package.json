@@ -1,7 +1,7 @@
 {
   "name": "proteusjs",
   "description": "Hapi Server Plugin",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": "lib/index.js",
   "keywords": [
     "hapi",
@@ -37,5 +37,6 @@
     "test": "lab -m 5000 -t 85 -v -a code",
     "test-cov-html": "lab -m 5000 -r html -o coverage.html -a code"
   },
-  "license": "geekjai"
+  "license" : "MIT",
+  "author": "geekjai"
 }
