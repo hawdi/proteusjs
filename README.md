@@ -8,6 +8,49 @@ Lead Maintainer: [Jai Kishan](https://github.com/geekjai)
 > **proteusjs.config.js**
 
 ```javascript
+'use strict';
+
+const proteus = require('proteusjs');
+const proteusConsole = require('proteusjs-console');
+const database = require('./database.js');
+
+module.exports = {
+  register: proteus,
+  options: {
+    reporters : {
+      console : proteusConsole
+    },
+    //hapi setup
+    hapi: {
+      log: {
+        log: true,
+        request: true,
+        response: true,
+        ops: true
+      }
+    },
+    //knex config
+    'knex': {
+      lib: database,
+      enable: true,
+      log: {
+        query: true,
+        error: true,
+        end: true,
+        queryerror: true
+      }
+    },
+    //wreck config
+    'wreck': {
+      lib: require('wreck'),
+      enable: true,
+      log: {
+        request: true,
+        response : true
+      }
+    }
+  }
+}
 
 ```
 
