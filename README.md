@@ -10,15 +10,16 @@ Lead Maintainer: [Jai Kishan](https://github.com/geekjai)
 ```javascript
 'use strict';
 
-const proteus = require('proteusjs');
-const proteusConsole = require('proteusjs-console');
-const database = require('./database.js');
+const Proteus = require('proteusjs');
+const ProteusConsole = require('proteusjs-console');
+const Database = require('./database.js');
+const Wreck = require('wreck');
 
 module.exports = {
-  register: proteus,
+  register: Proteus,
   options: {
     reporters : {
-      console : proteusConsole
+      console : ProteusConsole
     },
     //hapi setup
     hapi: {
@@ -31,7 +32,7 @@ module.exports = {
     },
     //knex config
     'knex': {
-      lib: database,
+      lib: Database,
       enable: true,
       log: {
         query: true,
@@ -42,7 +43,7 @@ module.exports = {
     },
     //wreck config
     'wreck': {
-      lib: require('wreck'),
+      lib: Wreck,
       enable: true,
       log: {
         request: true,
@@ -52,6 +53,32 @@ module.exports = {
   }
 }
 
+```
+> **server.js (hapi plugin setup)**
+
+```javascript
+'use strict';
+
+const Hapi = require('hapi');
+const server = new Hapi.Server();
+const ProteusConfig = require('./proteusjs.config')
+server.connection();
+
+
+server.register(
+  {
+    ProteusConfig
+  }, (err) => {
+
+    if (err) {
+      return console.error(err);
+    }
+
+    server.start(() => {
+      console.info(`Server started at ${ server.info.uri }`);
+    });
+  }
+);
 ```
 
 ##Existing streams
