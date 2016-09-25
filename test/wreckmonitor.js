@@ -34,6 +34,7 @@ const plugin = {
 
 const wreckReq = require('./fixtures/wreckrequest');
 const wreckRes = require('./fixtures/wreckresponse');
+const wreckUri = require('./fixtures/wreckuri');
 
 describe('Monitor :: Wreck', () => {
 
@@ -67,7 +68,7 @@ describe('Monitor :: Wreck', () => {
       done();
     });
 
-    wreck.emit('response', null, null, wreckRes, null, null);
+    wreck.emit('response', null, wreckReq, wreckRes, null, wreckUri);
   });
 
   it('disable request and response handler', (done) => {
