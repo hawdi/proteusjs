@@ -5,8 +5,12 @@ proteusjs has a ability to monitor various events emitted from [hapi](https://gi
 Lead Maintainer: [Jai Kishan](https://github.com/geekjai)
 
 ##Example Usage
+> **proteusjs.config.js**
 
+```javascript
+
+```
 
 ##Existing streams
-Any transform or write stream can work with proteusjs. The following streams can work with proteusjs.
+Any transform or write stream can work with proteusjs. The following streams work with proteusjs.
 - [proteusjs-console](https://github.com/hawdi/proteusjs-console)
