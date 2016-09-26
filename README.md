@@ -27,7 +27,8 @@ module.exports = {
         log: true,
         request: true,
         response: true,
-        ops: true
+        ops: true,
+        error:true
       }
     },
     //knex config
