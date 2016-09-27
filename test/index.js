@@ -107,15 +107,16 @@ describe('Proteusjs :: Main', () => {
 
   }); //end of - Server :: Hapi start and stop perform
 
-  describe('Server :: Hapi monitor 2', () => {
+  describe('Server :: Hapi "log" monitor', () => {
+
     before((done) => {
 
       plugin.options.hapi.log = {
         log: true,
-        request: true,
-        response: true,
+        request: false,
+        response: false,
         ops: false,
-        error: true
+        error: false
       };
 
       plugin.options.reporters.logit = new EventEmitter;
@@ -155,6 +156,23 @@ describe('Proteusjs :: Main', () => {
 
       });
 
+    });
+
+  });//end of - Server :: Hapi "log" monitor
+
+  describe('Server :: Hapi monitor 2', () => {
+    before((done) => {
+
+      plugin.options.hapi.log = {
+        log: true,
+        request: true,
+        response: true,
+        ops: false,
+        error: true
+      };
+
+      plugin.options.reporters.logit = new EventEmitter;
+      done();
     });
 
     it('server "request" monitor', (done) => {
