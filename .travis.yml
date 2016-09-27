@@ -1,0 +1,14 @@
+sudo: false
+language: node_js
+
+node_js:
+  - "4"
+  - "node"
+
+script:
+  - "if [ $COVERAGE ]; then npm run cover && bash <(curl -s https://codecov.io/bash) -f coverage/lcov.info; else npm run test; fi"
+
+matrix:
+  include:
+    - node_js: "4"
+      env: COVERAGE=true
