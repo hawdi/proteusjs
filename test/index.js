@@ -222,44 +222,6 @@ describe('Proteusjs :: Main', () => {
 
   }); //end of - Server :: Hapi "request" monitor
 
-  describe('Server :: Hapi monitor 2', () => {
-    before((done) => {
-
-      plugin.options.hapi.log = {
-        log: true,
-        request: true,
-        response: true,
-        ops: false,
-        error: true
-      };
-
-      plugin.options.reporters.logit = new EventEmitter;
-      done();
-    });
-
-    //start server after setting all log property to false
-
-    it('start server with hapi log to false', (done) => {
-      plugin.options.hapi.log = {
-        log: false,
-        request: false,
-        response: false
-      };
-
-      const server = new Hapi.Server();
-
-      server.register(plugin, (err) => {
-
-        //No err.
-        expect(err).to.not.exist();
-
-        server.connection();
-        server.start(done);
-      });
-
-    });
-  });
-
   describe('Server :: Hapi "error" monitor', () => {
 
     before((done) => {
