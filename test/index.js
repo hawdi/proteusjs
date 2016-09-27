@@ -74,107 +74,6 @@ const internals = {
 
 describe('Proteusjs :: Main', () => {
 
-  describe('Server :: Hapi "ops" monitor', () => {
-
-    before((done) => {
-
-      //log only ops event
-
-      plugin.options.hapi.log = {
-        log: false,
-        request: false,
-        response: false,
-        ops: true,
-        error: false
-      };
-
-      plugin.options.hapi.ops = { interval: 2500 };
-
-      plugin.options.reporters.logit = new EventEmitter;
-      done();
-
-    });
-
-    it('"ops" start method get called when the server starts', { plan: 2 }, (done) => {
-
-      const server = new Hapi.Server();
-      const start = Oppsy.prototype.start;
-
-      server.register(plugin, (err) => {
-
-        //server starts without error
-
-        expect(err).to.not.exist();
-
-        Oppsy.prototype.start = (interval) => {
-
-          Oppsy.prototype.start = start;
-
-          //oppsy start method should get called.
-
-          expect(interval).to.equal(2500);
-        };
-        server.connection();
-        server.start(done);
-      });
-
-    });
-
-    it('"ops" error handling', { plan: 2 }, (done) => {
-
-      const server = new Hapi.Server();
-      const monitor = internals.monitorFactory(server, {});
-
-      //mock console error
-
-      const error = console.error;
-      console.error = (err) => {
-        console.error = error;
-        expect(err).to.be.an.instanceof(Error);
-        monitor.stop(done);
-      };
-
-      monitor.start((err) => {
-        expect(err).to.not.exist();
-        monitor._ops.emit('error', new Error('mock error'));
-      });
-
-    });
-
-    it('verify "ops" data object', { plan: 2 }, (done) => {
-
-      const server = new Hapi.Server();
-      server.connection();
-
-      const monitor = internals.monitorFactory(server, {});
-
-      plugin.options.reporters.logit.once('logit', function(result){
-
-        expect(result.object).equal('server');
-        expect(result.event).equal('ops');
-        done();
-      });
-
-      Async.series([
-        server.start.bind(server),
-        monitor.start.bind(monitor),
-        (callback) => {
-
-          monitor.startOps(100);
-            return callback();
-        },
-        (callback) => {
-
-          // time to report
-          setTimeout(() => {
-            server.stop(callback);
-          }, 150);
-        }
-      ]);
-    });
-
-  });
-
   describe('Server :: Hapi monitor 2', () => {
     before((done) => {
 
@@ -320,4 +219,173 @@ describe('Proteusjs :: Main', () => {
 
     });
   });
+
+  describe('Server :: Hapi "error" monitor', () => {
+
+    before((done) => {
+
+      //log only error event
+
+      plugin.options.hapi.log = {
+        log: false,
+        request: false,
+        response: false,
+        ops: false,
+        error: true
+      };
+
+      plugin.options.reporters.logit = new EventEmitter;
+      done();
+
+    });
+
+    it('emit error events to all reporters when they occur', (done) => {
+
+      const server = new Hapi.Server({ debug: false });
+      server.connection();
+
+      server.route({
+        method: 'GET',
+        path: '/',
+        config: {
+          handler: (request, reply) => {
+            reply('done');
+            throw new Error('mock error');
+          }
+        }
+      });
+
+      const monitor = internals.monitorFactory(server, {});
+
+      plugin.options.reporters.logit.once('logit', function(result) {
+
+        expect(result.object).equal('server');
+        expect(result.event).equal('error');
+        expect(result.errorMessage).equal('Uncaught error: mock error');
+        done();
+      });
+
+      Async.series([
+        server.start.bind(server),
+        monitor.start.bind(monitor),
+        (callback) => {
+
+          const req = Http.request({
+            hostname: server.info.host,
+            port: server.info.port,
+            method: 'GET',
+            path: '/?q=test'
+          }, (res) => {
+            expect(res.statusCode).to.equal(500);
+            callback();
+          });
+          req.end();
+        }
+      ], monitor.stop(() => {}));
+
+    });
+
+  });
+
+  describe('Server :: Hapi "ops" monitor', () => {
+
+    before((done) => {
+
+      //log only ops event
+
+      plugin.options.hapi.log = {
+        log: false,
+        request: false,
+        response: false,
+        ops: true,
+        error: false
+      };
+
+      plugin.options.hapi.ops = { interval: 2500 };
+
+      plugin.options.reporters.logit = new EventEmitter;
+      done();
+
+    });
+
+    it('"ops" start method get called when the server starts', { plan: 2 }, (done) => {
+
+      const server = new Hapi.Server();
+      const start = Oppsy.prototype.start;
+
+      server.register(plugin, (err) => {
+
+        //server starts without error
+
+        expect(err).to.not.exist();
+
+        Oppsy.prototype.start = (interval) => {
+
+          Oppsy.prototype.start = start;
+
+          //oppsy start method should get called.
+
+          expect(interval).to.equal(2500);
+        };
+        server.connection();
+        server.start(done);
+      });
+
+    });
+
+    it('"ops" error handling', { plan: 2 }, (done) => {
+
+      const server = new Hapi.Server();
+      const monitor = internals.monitorFactory(server, {});
+
+      //mock console error
+
+      const error = console.error;
+      console.error = (err) => {
+        console.error = error;
+        expect(err).to.be.an.instanceof(Error);
+        monitor.stop(done);
+      };
+
+      monitor.start((err) => {
+        expect(err).to.not.exist();
+        monitor._ops.emit('error', new Error('mock error'));
+      });
+
+    });
+
+    it('verify "ops" data object', { plan: 2 }, (done) => {
+
+      const server = new Hapi.Server();
+      server.connection();
+
+      const monitor = internals.monitorFactory(server, {});
+
+      plugin.options.reporters.logit.once('logit', function(result){
+
+        expect(result.object).equal('server');
+        expect(result.event).equal('ops');
+        done();
+      });
+
+      Async.series([
+        server.start.bind(server),
+        monitor.start.bind(monitor),
+        (callback) => {
+
+          monitor.startOps(100);
+            return callback();
+        },
+        (callback) => {
+
+          // time to report
+          setTimeout(() => {
+            server.stop(callback);
+          }, 150);
+        }
+      ]);
+    });
+
+  });
+
 });
