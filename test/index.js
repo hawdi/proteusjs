@@ -74,22 +74,9 @@ const internals = {
 
 describe('Proteusjs :: Main', () => {
 
-  describe('Server :: Hapi monitor 2', () => {
-    before((done) => {
+  describe('Server :: Hapi start and stop perform', () => {
 
-      plugin.options.hapi.log = {
-        log: true,
-        request: true,
-        response: true,
-        ops: false,
-        error: true
-      };
-
-      plugin.options.reporters.logit = new EventEmitter;
-      done();
-    });
-
-    it('server starts without error', (done) => {
+    it('server starts without error', {plan : 1}, (done) => {
 
       const server = new Hapi.Server();
 
@@ -103,7 +90,7 @@ describe('Proteusjs :: Main', () => {
       });
     });
 
-    it('server stops without error', (done) => {
+    it('server stops without error', {plan : 1}, (done) => {
 
       const server = new Hapi.Server();
 
@@ -116,6 +103,23 @@ describe('Proteusjs :: Main', () => {
           done();
         });
       });
+    });
+
+  }); //end of - Server :: Hapi start and stop perform
+
+  describe('Server :: Hapi monitor 2', () => {
+    before((done) => {
+
+      plugin.options.hapi.log = {
+        log: true,
+        request: true,
+        response: true,
+        ops: false,
+        error: true
+      };
+
+      plugin.options.reporters.logit = new EventEmitter;
+      done();
     });
 
     it('perform server log', (done) => {
@@ -285,7 +289,7 @@ describe('Proteusjs :: Main', () => {
 
     });
 
-  });
+  }); //end of - Server :: Hapi "error" monitor
 
   describe('Server :: Hapi "ops" monitor', () => {
 
@@ -386,6 +390,6 @@ describe('Proteusjs :: Main', () => {
       ]);
     });
 
-  });
+  }); //end of - Server :: Hapi "ops" monitor
 
 });
