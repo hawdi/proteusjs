@@ -45,7 +45,7 @@ const plugin = {
   }
 };
 
-const Monitor = require('../lib/serverlog/servermonitor');
+const HapiMonitor = require('../lib/hapilog/hapimonitor');
 
 // Declare internals
 
@@ -68,7 +68,7 @@ const internals = {
       server.event('super-secret');
     }
 
-    return new Monitor(server, Object.assign({}, defaults, options));
+    return new HapiMonitor(server, Object.assign({}, defaults, options));
   }
 };
 

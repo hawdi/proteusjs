@@ -1,7 +1,7 @@
 {
   "name": "proteusjs",
   "description": "Hapi Server Plugin",
-  "version": "0.0.7",
+  "version": "0.1.0",
   "main": "lib/index.js",
   "keywords": [
     "hapi",
