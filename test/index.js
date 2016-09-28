@@ -45,7 +45,7 @@ const plugin = {
   }
 };
 
-const Monitor = require('../lib/serverlog/servermonitor');
+const HapiMonitor = require('../lib/hapilog/hapimonitor');
 
 // Declare internals
 
@@ -68,7 +68,7 @@ const internals = {
       server.event('super-secret');
     }
 
-    return new Monitor(server, Object.assign({}, defaults, options));
+    return new HapiMonitor(server, Object.assign({}, defaults, options));
   }
 };
 
@@ -216,11 +216,69 @@ describe('Proteusjs :: Main', () => {
             }
           )
         }
-      ], done);
+      ]);
 
     });
 
   }); //end of - Server :: Hapi "request" monitor
+
+  describe('Server :: Hapi "response" monitor', () => {
+
+    before((done) => {
+
+      plugin.options.hapi.log = {
+        log: false,
+        request: false,
+        response: true,
+        ops: false,
+        error: false
+      };
+
+      plugin.options.reporters.logit = new EventEmitter;
+      done();
+    });
+
+    it('server "response" monitor', (done) => {
+      plugin.options.reporters.logit = new EventEmitter;
+      plugin.options.reporters.logit.once('logit', (result) => {
+
+        expect(result.object).to.equal('server');
+        expect(result.event).to.equal('response');
+        done();
+      });
+
+      //start server
+      const server = new Hapi.Server();
+      server.connection();
+
+      server.route({
+        method: 'GET',
+        path: '/',
+        handler: (request, reply) => {
+
+          reply('Done');
+        }
+      });
+
+      const monitor = internals.monitorFactory(server, {});
+
+      Async.series([
+        server.start.bind(server),
+        monitor.start.bind(monitor),
+        (callback) => {
+          server.inject(
+            {
+              url: '/'
+            }, (res) => {
+              expect(res.statusCode).to.equal(200);
+            }
+          )
+        }
+      ]);
+
+    });
+
+  }); //end of - Server :: Hapi "response" monitor
 
   describe('Server :: Hapi "error" monitor', () => {
 
