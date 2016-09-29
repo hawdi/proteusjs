@@ -4,6 +4,7 @@ proteusjs has a ability to monitor various events emitted from [hapi](https://gi
 
 [![Build Status](https://api.travis-ci.org/hawdi/proteusjs.svg?branch=master)](http://travis-ci.org/hawdi/proteusjs)
 [![codecov](https://codecov.io/gh/hawdi/proteusjs/branch/master/graph/badge.svg)](https://codecov.io/gh/hawdi/proteusjs)
+[![Current Version](https://img.shields.io/npm/v/proteusjs.svg)](https://www.npmjs.com/package/proteusjs)
 
 Lead Maintainer: [Jai Kishan](https://github.com/geekjai)
 
