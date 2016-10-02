@@ -1,6 +1,6 @@
 # proteusjs
 
-proteusjs has a ability to monitor various events emitted from [hapi](https://github.com/hapijs/hapi), [wreck](https://github.com/tgriesser/knex), [knex](https://github.com/hapijs/wreck) as well as [ops](https://github.com/hapijs/oppsy) information from the host machine. It listens for events emitted by different source and pushes standardized events to a collection of streams. It's primary focus is to monitor `server`, `database` and `remote` call events in an application.
+proteusjs has an ability to monitor various events emitted from [hapi](https://github.com/hapijs/hapi), [wreck](https://github.com/tgriesser/knex), [knex](https://github.com/hapijs/wreck), and as well as [ops](https://github.com/hapijs/oppsy) information from the host machine. It listens for events emitted by different source and pushes standardized events to a collection of streams. It's primary focus is to monitor `server`, `database` and `remote` call events in an application.
 
 [![Build Status](https://api.travis-ci.org/hawdi/proteusjs.svg?branch=master)](http://travis-ci.org/hawdi/proteusjs)
 [![codecov](https://codecov.io/gh/hawdi/proteusjs/branch/master/graph/badge.svg)](https://codecov.io/gh/hawdi/proteusjs)
@@ -91,12 +91,12 @@ server.register(
 'use strict';
 
 const knex = require('knex')({
-  client: config('mysql'),
+  client: 'mysql',
   connection: {
-    host     : config('localhost'),
-    user     : config('root'),
-    password : config(''),
-    database : config('example')
+    host     : 'localhost',
+    user     : 'root',
+    password : '',
+    database : 'example'
   },
   pool: {
     min: 0,
